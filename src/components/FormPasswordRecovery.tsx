@@ -1,12 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import InputText from "./ui/InputText";
 
-interface FormData {
-  email: string;
-  code: string;
-  newPassword: string;
-}
-
 interface Props {
   onBack: () => void;
 }

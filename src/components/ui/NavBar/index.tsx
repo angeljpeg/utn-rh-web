@@ -8,12 +8,12 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-green-50/50 border-t shadow-md w-full flex flex-col z-30">
+    <nav className="bg-white-100 border-t shadow-md w-full flex flex-col z-20">
       <div className="flex md:hidden justify-between items-center px-4 py-3">
         <h1 className="text-[#228B22] font-bold">Menú</h1>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-[#228B22] hover:text-[#155a15] focus:outline-none"
+          className="text-[#228B22] Shover:text-[#155a15] focus:outline-none"
         >
           {isMenuOpen ? <IoMdClose /> : <RxHamburgerMenu />}
         </button>
@@ -28,7 +28,7 @@ export default function NavBar() {
           {BenefitsItems.map((item) => (
             <li
               key={item.URL}
-              className="text-[#228B22] hover:text-[#155a15] cursor-pointer font-semibold hover:scale-110"
+              className="text-black hover:text-[#155a15] cursor-pointer font-normal hover:duration-200 transition-all hover:scale-110 py-2"
             >
               <Link to={item.URL}>{item.title}</Link>
             </li>

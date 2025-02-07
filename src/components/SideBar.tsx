@@ -13,6 +13,10 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import utnLogo from "../assets/utn.svg";
 import { NavLink } from "react-router-dom";
+import { useUserStore } from "../../stores/user-store";
+import { useNavigate } from "react-router-dom";
+import { nav } from "framer-motion/m";
+import { LogOut } from "lucide-react";
 
 interface SidebarItemProps {
   icon: ReactNode;
@@ -29,6 +33,8 @@ interface SideBarContextProps {
 const SideBarContext = createContext<SideBarContextProps>({ expanded: true });
 
 export function SideBar({ children }: { children: ReactNode }) {
+  const { user, logout } = useUserStore();
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -84,7 +90,13 @@ export function SideBar({ children }: { children: ReactNode }) {
             className="flex items-center justify-center bg-green-500 text-white font-bold rounded-md w-10 h-10 cursor-pointer"
             onClick={() => setMenuOpen((prev) => !prev)}
           >
-            {getInitials("Carlos Ivan")}
+            {getInitials(
+              user?.nombre === undefined
+                ? "Usuario Desconocido"
+                : user?.nombre === null
+                ? "Usuario Desconocido"
+                : user?.nombre
+            )}
           </div>
           <div
             className={`flex justify-between items-center overflow-hidden transition-all duration-300 ${
@@ -92,8 +104,8 @@ export function SideBar({ children }: { children: ReactNode }) {
             }`}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">Carlos Ivan</h4>
-              <span className="text-xs text-gray-600">lopezh@gmail.com</span>
+              <h4 className="font-semibold">{user?.nombre}</h4>
+              <span className="text-xs text-gray-600">{user?.matricula}</span>
             </div>
             <button onClick={() => setMenuOpen((prev) => !prev)}>
               <PiDotsThreeOutlineVerticalFill size={20} />
@@ -111,11 +123,16 @@ export function SideBar({ children }: { children: ReactNode }) {
                 to="/config"
                 text="Mi cuenta"
               />
-              <SidebarItem
-                icon={<CiLogout size={20} />}
-                to="/"
-                text="Cerrar sesión"
-              />
+              <button
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                className="flex items-center gap-2 px-3 py-2 hover:bg-green-100 text-gray-600  rounded-lg font-medium transition-all w-full"
+              >
+                <LogOut size={20} />
+                Cerrar sesión
+              </button>
             </div>
           )}
         </div>
